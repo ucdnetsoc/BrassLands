@@ -6,11 +6,10 @@ from src import game
 
 if __name__ == '__main__':
     # Setup
-    game = game.Game()
     pygame.init()
 
     # Start game loop
-    game.game_loop()
+    game.Game().start()
 
     # Cleanup
     pygame.quit()
