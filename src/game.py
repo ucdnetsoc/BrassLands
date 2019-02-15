@@ -53,7 +53,7 @@ class Game:
         self.__size = Config['game']['width'], Config['game']['height']
         self.__display_surf = pygame.display.set_mode(self.__size, pygame.HWSURFACE | pygame.DOUBLEBUF)
         self.sprite_group = pygame.sprite.Group()
-        self.char = Player((400, 300), "src/res/char.png")  # Starting position of the player
+        self.char = Player((400, 300), Config['resources']['sprites']['player'])  # Starting position of the player
         self.sprite_group.add(self.char)
 
     def start(self):
