@@ -1,7 +1,8 @@
 Config = {
     'game': {
-        'height': 600,
-        'width': 800
+        'height': 640,
+        'width': 800,
+        'tile_width': 32
     },
     'resources': {
         'sprites': {
