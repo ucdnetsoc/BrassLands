@@ -21,7 +21,7 @@ class Player(pg.sprite.Sprite):
         x = Config['game']['width'] // tile_width
         y = Config['game']['height'] // tile_width
         w = tile_width // 2
-        return [[(w * j, w * i) for j in range(1, x + 1)] for i in range(1, y + 1)]
+        return [[(w + tile_width * j, w + tile_width * i) for j in range(x)] for i in range(y)]
 
     def set_pos(self, x, y):
         tile_width = Config['game']['tile_width']
