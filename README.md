@@ -1,9 +1,7 @@
-# BrassLands
+![Brasslands](src/res/menu.png)
+
 BrassLands is an open-source Python based steampunk, fantasy, rouge-like created by the UCD NetSoc. It is built using [libtcod](https://bitbucket.org/libtcod/libtcod) and [pygame](https://www.pygame.org/), and is currently in the very earliest stages of development!  
 We would love any help that we can get, but remember to leave the *easy* stuff for people who haven't programmed that much before.
-
-# DISCORD!
-Join the NetSoc [Discord channel](https://discord.gg/prFWUY9) to talk about the project! This channel is fairly new so expect changes as people join.
 
 ## Want to help out?
 
@@ -17,8 +15,7 @@ You need to have python installed and a few libraries before you can run the pro
 ### Windows and Mac
 Get the latest python 3 version [here](https://www.python.org/downloads/).  
  To install the necessary libraries, run the following commands in the terminal.
- > \> python -m pip install pygame  
- > \> python -m pip install tcod  
+ > \> python -m pip install -r requironments.txt
 
 ### Linux
 
@@ -26,8 +23,7 @@ If you don't have python 3 already, you can download it through your favourite p
 > $ sudo apt-get python3
 
 I'm fairly certain you should be able to get the other packages you need simply by using the commands:  
-> $ pip install pygame  
-> $ pip install tcod
+> $ pip install -r requironments.txt
 
 
 ## What needs to be done?
@@ -40,7 +36,7 @@ Here's how I imagine the game playing out as a simple MVP:
  - A simple grid system.
  
 #### Character
- - Arrow keys to move
+ - Arrow keys to move 
  - basic rouge-like fight system, (move into an enemy to attack)  
  - A simple equipment system
  - At least two sets of different equipment
