@@ -1,3 +1,6 @@
+import os
+from utilities import RootGameDirectory
+
 Config = {
     'game': {
         'height': 640,
@@ -6,7 +9,7 @@ Config = {
     },
     'resources': {
         'sprites': {
-            'player': "src/res/char.png"
+            'player': os.path.join(RootGameDirectory(),"src/res/char.png")
         }
     }
 }
