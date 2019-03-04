@@ -1,7 +1,7 @@
 # libraries
 import pygame as pg
 
-from src.config import Config
+from config import Config
 
 
 class Player(pg.sprite.Sprite):
