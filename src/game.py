@@ -1,38 +1,56 @@
 # libraries
-import pygame
+import pygame as pg
 
-from src.config import Config
+from config import Config
 
 
-class Player(pygame.sprite.Sprite):
+class Player(pg.sprite.Sprite):
 
-    def __init__(self, initial_pos, sprite_sheet):
+    def __init__(self, sprite_sheet):
         super().__init__()
-        self.sheet = pygame.image.load(sprite_sheet).convert_alpha()
+        self.sheet = pg.image.load(sprite_sheet).convert_alpha()
         self.sheet_cells = []  # Divisions of sprite sheet
         self.image = self.get_image(0)
         self.rect = self.image.get_rect()
-        self.rect.center = initial_pos
+        self.curr_pos = (0, 0)  # Stores current position of player
+        self.grid = self.make_grid()  # List of coordinates player can move on screen
+
+    @staticmethod
+    def make_grid():
+        tile_width = Config['game']['tile_width']
+        x = Config['game']['width'] // tile_width
+        y = Config['game']['height'] // tile_width
+        w = tile_width // 2
+        return [[(w + tile_width * j, w + tile_width * i) for j in range(x)] for i in range(y)]
+
+    def set_pos(self, x, y):
+        tile_width = Config['game']['tile_width']
+        max_w = Config['game']['width'] // tile_width
+        max_h = Config['game']['height'] // tile_width
+        if x >= max_w or y >= max_h or x < 0 or y < 0:  # Does nothing if pos outside bounds
+            return
+        self.curr_pos = (x, y)
+        self.rect.center = self.grid[y][x]
 
     def get_pos(self):
-        return self.rect.center
+        return self.curr_pos
 
     def update(self):
         pass
 
     def move(self, direction):
-        if direction == pygame.K_w:
+        if direction == pg.K_w:
             self.image = self.get_image(0)
-            self.rect.top -= self.rect.height
-        if direction == pygame.K_s:
+            self.set_pos(self.curr_pos[0], self.curr_pos[1] - 1)
+        if direction == pg.K_s:
             self.image = self.get_image(1)
-            self.rect.top += self.rect.height
-        if direction == pygame.K_d:
+            self.set_pos(self.curr_pos[0], self.curr_pos[1] + 1)
+        if direction == pg.K_d:
             self.image = self.get_image(2)
-            self.rect.left += self.rect.width
-        if direction == pygame.K_a:
-            self.image = pygame.transform.flip(self.get_image(2), True, False)
-            self.rect.left -= self.rect.width
+            self.set_pos(self.curr_pos[0] + 1, self.curr_pos[1])
+        if direction == pg.K_a:
+            self.image = pg.transform.flip(self.get_image(2), True, False)
+            self.set_pos(self.curr_pos[0] - 1, self.curr_pos[1])
 
     def get_image(self, cell_index):  # Divides the sprite sheet and stores the divisions in self.cells
         if not self.sheet_cells:
@@ -51,9 +69,9 @@ class Game:
     def __init__(self):
         self.__running = True
         self.__size = Config['game']['width'], Config['game']['height']
-        self.__display_surf = pygame.display.set_mode(self.__size, pygame.HWSURFACE | pygame.DOUBLEBUF)
-        self.sprite_group = pygame.sprite.Group()
-        self.char = Player((400, 300), Config['resources']['sprites']['player'])  # Starting position of the player
+        self.__display_surf = pg.display.set_mode(self.__size, pg.HWSURFACE | pg.DOUBLEBUF)
+        self.sprite_group = pg.sprite.Group()
+        self.char = Player(Config['resources']['sprites']['player'])  # Initializes player at (0, 0)
         self.sprite_group.add(self.char)
 
     def start(self):
@@ -62,14 +80,15 @@ class Game:
     def __game_loop(self):
         while self.__running:
             self.__display_surf.fill((255, 255, 255))
-            for event in pygame.event.get():
+            for event in pg.event.get():
                 self.__on_event(event)
+
             self.sprite_group.update()  # Call the update() method on all the sprites in the group
             self.sprite_group.draw(self.__display_surf)  # Draw the sprites in the group
-            pygame.display.update()
+            pg.display.update()
 
     def __on_event(self, event):
-        if event.type == pygame.QUIT:
+        if event.type == pg.QUIT:
             self.__running = False
-        if event.type == pygame.KEYDOWN:
+        if event.type == pg.KEYDOWN:
             self.char.move(event.key)
