@@ -1,6 +1,8 @@
 import os
 from utilities import RootGameDirectory
 
+path = lambda string : os.path.join(RootGameDirectory(),string);
+
 Config = {
     'game': {
         'height': 640,
@@ -9,7 +11,8 @@ Config = {
     },
     'resources': {
         'sprites': {
-            'player': os.path.join(RootGameDirectory(),"src/res/char.png")
+            'player': path("src/res/char.png")
         }
     }
 }
+
