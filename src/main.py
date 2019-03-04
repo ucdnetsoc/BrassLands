@@ -13,5 +13,4 @@ if __name__ == '__main__':
 
     # Cleanup
     pygame.quit()
-
-(lambda pg, g: (pg.init(), g.Game.start(), pygame.quit()))(__import__('pygame'))
+    
