@@ -1,7 +1,7 @@
 # libraries
 import pygame as pg
 
-from src.config import Config
+from config import Config
 
 
 class Ground(pg.sprite.Sprite):
@@ -124,6 +124,7 @@ class Game:
 
         self.coord_grid = make_grid()
         self.scenery_grid = make_level(self.scenery_grp, self.coord_grid, Config['resources']['levels']['level1'])
+        print(Config['resources']['sprites']['player'])
         self.char = Player(Config['resources']['sprites']['player'], self.coord_grid)  # Initializes player at (0, 0)
         self.player_grp.add(self.char)
 

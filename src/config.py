@@ -1,3 +1,5 @@
+from utilities import get_path
+
 Config = {
     'game': {
         'height': 640,
@@ -8,10 +10,11 @@ Config = {
     },
     'resources': {
         'sprites': {
-            'player': "src/res/char.png"
+            'player': get_path("src/res/char.png")
         },
         'levels': {
             'level1': ""
         }
     }
 }
+
