@@ -2,7 +2,7 @@
 import pygame
 
 # local files
-from src import game
+import game
 
 if __name__ == '__main__':
     # Setup
@@ -13,3 +13,4 @@ if __name__ == '__main__':
 
     # Cleanup
     pygame.quit()
+    
