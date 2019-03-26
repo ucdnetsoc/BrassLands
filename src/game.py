@@ -11,17 +11,34 @@ class Hover:
 
 class Inventory:
     def __init__(self, surface):
+        w, h = 7, 3
         self.surface = surface
-        self.visible = False
+        self.visible = True
         self.image = pg.image.load("/home/david/Documents/BrassLands/src/res/Inventory.png")
-        x = 170
-        self.image = pg.transform.scale(self.image, (502-x, 687-x))
         self.rect = self.image.get_rect()
         self.rect.bottomright = (Config['game']['width'], Config['game']['height'])
+        x, y = self.rect.topleft
+        x += 20
+        self.inv_rects = [pg.Rect((x + i * 42, y + 290 + j * 42), (40, 40)) for i in range(w) for j in range(h)]
+
+    def event_handler(self, event):
+        mouse_pos = pg.mouse.get_pos()
+        for rect in self.inv_rects:
+            if rect.collidepoint(mouse_pos[0], mouse_pos[1]):
+                print(rect.topleft)
+
+        if event.type == pg.KEYDOWN:
+            if event.key == pg.K_i:
+                self.visible = not self.visible
 
     def draw(self):
         if self.visible:
             self.surface.blit(self.image, self.rect)
+        # pg.draw.rect(self.surface, (255, 255, 255), self.test_rect)
+        # x = 0
+        # for rect in self.inv_rects:
+        #     pg.draw.rect(self.surface, (255 - x, 255 - x / 2, 255 - x - 5), rect)
+        #     x += 10
 
 
 class Ground(pg.sprite.Sprite):
@@ -167,7 +184,6 @@ class Game:
     def __on_event(self, event):
         if event.type == pg.QUIT:
             self.__running = False
+        self.inventory.event_handler(event)
         if event.type == pg.KEYDOWN:
-            if event.key == pg.K_i:
-                self.inventory.visible = not self.inventory.visible
             self.char.move(event.key, self.scenery_grid)
