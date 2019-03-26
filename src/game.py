@@ -5,16 +5,17 @@ from config import Config
 
 
 class Hover:
-    def __init__(self, name="Item", description="No description"):
+    def __init__(self, name, description, icon=Config['resources']['ui']['icons']['default']):
         font = pg.font.Font("/home/david/Documents/BrassLands/src/res/font.ttf", 30)
-        self.icon = pg.image.load("/home/david/Documents/BrassLands/src/res/questionmark2.png")
+        self.icon = pg.image.load(icon)
         self.surf = pg.image.load("/home/david/Documents/BrassLands/src/res/hover.png")
         self.rect = self.surf.get_rect()
 
-        self.name = name
-        self.name_surf = font.render(self.name, True, (235, 235, 235))
-        self.description = description
-        self.desc_surf = font.render(self.description, True, (235, 235, 235))
+        name = "<Item Name>" if name is None else name
+        description = "<Item Description>" if description is None else description
+
+        self.name_surf = font.render(name, True, (235, 235, 235))
+        self.desc_surf = font.render(description, True, (235, 235, 235))
 
         self.surf.blit(self.icon, (13, 13))
         self.surf.blit(self.name_surf, (65, 15))
@@ -28,10 +29,9 @@ class Hover:
 class Inventory:
     def __init__(self, surface):
         w, h = 7, 3
-        self.surface = surface
-        self.visible = True
-        self.image = pg.image.load("/home/david/Documents/BrassLands/src/res/Inventory.png")
-        self.rect = self.image.get_rect()
+        self.visible = False
+        self.surface = pg.image.load(Config['resources']['ui']['inventory'])
+        self.rect = self.surface.get_rect()
         self.rect.bottomright = (Config['game']['width'], Config['game']['height'])
         x, y = self.rect.topleft
         x += 20
