@@ -5,14 +5,24 @@ from config import Config
 
 
 class Hover:
-    def __init__(self):
-        self.width = 150
-        self.height = 80
-        self.rect = pg.Rect((0, 0), (self.width, self.height))
+    def __init__(self, name="Item", description="No description"):
+        font = pg.font.Font("/home/david/Documents/BrassLands/src/res/font.ttf", 30)
+        self.icon = pg.image.load("/home/david/Documents/BrassLands/src/res/questionmark2.png")
+        self.surf = pg.image.load("/home/david/Documents/BrassLands/src/res/hover.png")
+        self.rect = self.surf.get_rect()
+
+        self.name = name
+        self.name_surf = font.render(self.name, True, (235, 235, 235))
+        self.description = description
+        self.desc_surf = font.render(self.description, True, (235, 235, 235))
+
+        self.surf.blit(self.icon, (13, 13))
+        self.surf.blit(self.name_surf, (65, 15))
+        self.surf.blit(self.desc_surf, (13, 55))
 
     def draw(self, surface, pos):
         self.rect.bottomright = pos
-        pg.draw.rect(surface, (255, 230, 255), self.rect)
+        surface.blit(self.surf, self.rect)
 
 
 class Inventory:
