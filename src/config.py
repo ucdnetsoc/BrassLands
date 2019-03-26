@@ -10,7 +10,9 @@ Config = {
     },
     'resources': {
         'sprites': {
-            'player': get_path("src/res/char.png")
+            'player': get_path("src/res/char.png"),
+            'ground': get_path("src/res/ground.png"),
+            'wall': get_path("src/res/rock.png")
         },
         'levels': {
             'level1': ""

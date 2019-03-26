@@ -5,17 +5,17 @@ from config import Config
 
 
 class Ground(pg.sprite.Sprite):
-    def __init__(self, pos, color=(99, 100, 102)):
+    def __init__(self, pos):
         super().__init__()
-        self.image = pg.Surface((32, 32))  # TODO: Replace this with the sprite image then remove "color" parameter
-        self.image.fill(color)
+        self.image = pg.image.load(Config['resources']['sprites']['ground'])
         self.rect = self.image.get_rect()
         self.rect.center = pos
 
 
 class Wall(Ground):
     def __init__(self, pos):
-        super().__init__(pos, color=(140, 67, 0))
+        super().__init__(pos)
+        self.image = pg.image.load(Config['resources']['sprites']['wall'])
 
 
 class Player(pg.sprite.Sprite):
