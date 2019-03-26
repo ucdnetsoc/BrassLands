@@ -9,6 +9,12 @@ Config = {
         'ground_char': '.'
     },
     'resources': {
+        "ui": {
+            'inventory': get_path("src/res/Inventory.png"),
+            'icons': {
+                'default': get_path("src/res/questionmark.png")
+            }
+        },
         'sprites': {
             'player': get_path("src/res/char.png"),
             'ground': get_path("src/res/ground.png"),
@@ -19,4 +25,3 @@ Config = {
         }
     }
 }
-
