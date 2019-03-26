@@ -4,6 +4,26 @@ import pygame as pg
 from config import Config
 
 
+class Hover:
+    def __init__(self):
+        pass
+
+
+class Inventory:
+    def __init__(self, surface):
+        self.surface = surface
+        self.visible = False
+        self.image = pg.image.load("/home/david/Documents/BrassLands/src/res/Inventory.png")
+        x = 170
+        self.image = pg.transform.scale(self.image, (502-x, 687-x))
+        self.rect = self.image.get_rect()
+        self.rect.bottomright = (Config['game']['width'], Config['game']['height'])
+
+    def draw(self):
+        if self.visible:
+            self.surface.blit(self.image, self.rect)
+
+
 class Ground(pg.sprite.Sprite):
     def __init__(self, pos):
         super().__init__()
@@ -128,6 +148,8 @@ class Game:
         self.char = Player(Config['resources']['sprites']['player'], self.coord_grid)  # Initializes player at (0, 0)
         self.player_grp.add(self.char)
 
+        self.inventory = Inventory(self.__display_surf)
+
     def start(self):
         self.__game_loop()
 
@@ -139,10 +161,13 @@ class Game:
             self.scenery_grp.draw(self.__display_surf)
             self.player_grp.update()  # Call the update() method on all the sprites in the group
             self.player_grp.draw(self.__display_surf)  # Draw the sprites in the group
+            self.inventory.draw()
             pg.display.update()
 
     def __on_event(self, event):
         if event.type == pg.QUIT:
             self.__running = False
         if event.type == pg.KEYDOWN:
+            if event.key == pg.K_i:
+                self.inventory.visible = not self.inventory.visible
             self.char.move(event.key, self.scenery_grid)
