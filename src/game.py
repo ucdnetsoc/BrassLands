@@ -6,7 +6,13 @@ from config import Config
 
 class Hover:
     def __init__(self):
-        pass
+        self.width = 150
+        self.height = 80
+        self.rect = pg.Rect((0, 0), (self.width, self.height))
+
+    def draw(self, surface, pos):
+        self.rect.bottomright = pos
+        pg.draw.rect(surface, (255, 230, 255), self.rect)
 
 
 class Inventory:
@@ -22,11 +28,6 @@ class Inventory:
         self.inv_rects = [pg.Rect((x + i * 42, y + 290 + j * 42), (40, 40)) for i in range(w) for j in range(h)]
 
     def event_handler(self, event):
-        mouse_pos = pg.mouse.get_pos()
-        for rect in self.inv_rects:
-            if rect.collidepoint(mouse_pos[0], mouse_pos[1]):
-                print(rect.topleft)
-
         if event.type == pg.KEYDOWN:
             if event.key == pg.K_i:
                 self.visible = not self.visible
@@ -34,6 +35,12 @@ class Inventory:
     def draw(self):
         if self.visible:
             self.surface.blit(self.image, self.rect)
+            mouse_pos = pg.mouse.get_pos()
+            hvr = Hover()
+            for rect in self.inv_rects:
+                if rect.collidepoint(mouse_pos[0], mouse_pos[1]):
+                    hvr.draw(self.surface, mouse_pos)
+                    print(rect.topleft)
         # pg.draw.rect(self.surface, (255, 255, 255), self.test_rect)
         # x = 0
         # for rect in self.inv_rects:
