@@ -1,5 +1,6 @@
 # libraries
 import pygame as pg
+import json
 
 from config import Config
 
@@ -24,6 +25,21 @@ class Hover:
     def draw(self, surface, pos):
         self.rect.bottomright = pos
         surface.blit(self.surf, self.rect)
+
+
+class Item(Hover):
+    def __init__(self, j_string):
+        self.name, self.description = None, None
+        obj = json.loads(j_string)
+        self.parse_json(obj)
+        super().__init__(self.name, self.description)
+
+    def parse_json(self, obj):
+        try:
+            self.name = obj['name']
+            self.description = obj['description']
+        except KeyError as e:
+            print(f"Incorrect json format, unknown attribute: \"{e.args[0]}\"")
 
 
 class Inventory:
