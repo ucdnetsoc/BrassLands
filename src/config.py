@@ -26,7 +26,7 @@ Config = {
             'wall': get_path("src/res/sprites/rock.png")
         },
         'levels': {
-            'level1': ""
+            'level1': get_path("src/res/levels/example.lvl")
         }
     }
 }
