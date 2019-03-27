@@ -22,7 +22,7 @@ class Hover:
         self.surf.blit(self.name_surf, (65, 15))
         self.surf.blit(self.desc_surf, (13, 55))
 
-    def draw(self, surface, pos):
+    def show_tooltip(self, surface, pos):
         self.rect.bottomright = pos
         surface.blit(self.surf, self.rect)
 
@@ -43,31 +43,52 @@ class Item(Hover):
 
 
 class Inventory:
-    def __init__(self, surface):
+    def __init__(self):
         w, h = 7, 3
         self.visible = False
         self.surface = pg.image.load(Config['resources']['ui']['inventory'])
         self.rect = self.surface.get_rect()
         self.rect.bottomright = (Config['game']['width'], Config['game']['height'])
-        x, y = self.rect.topleft
-        x += 20
-        self.inv_rects = [pg.Rect((x + i * 42, y + 290 + j * 42), (40, 40)) for i in range(w) for j in range(h)]
+        x, y = 20, 0
+        self.inv_rects = [pg.Rect((x + i * 42, y + 290 + j * 42), (40, 40)) for j in range(h) for i in range(w)]
+
+        self.items = [None for _ in range(21)]
+        
+    # noinspection PyTypeChecker
+    def add(self, item):
+        if isinstance(item, Item):
+            for i, e in enumerate(self.items):
+                if e is None:
+                    self.items[i] = item
+                    self.update()
+                    return True
+        return False
+
+    def remove(self, item):
+        self.items.remove(item)
+        self.update()
 
     def event_handler(self, event):
         if event.type == pg.KEYDOWN:
             if event.key == pg.K_i:
                 self.visible = not self.visible
 
-    def draw(self):
+    def update(self):
+        self.surface = pg.image.load(Config['resources']['ui']['inventory'])
+        for i, item in enumerate(self.items):
+            if item is not None:
+                self.surface.blit(item.icon, self.inv_rects[i])
+
+    def draw(self, surface):
         if self.visible:
-            self.surface.blit(self.image, self.rect)
+            surface.blit(self.surface, self.rect)
             mouse_pos = pg.mouse.get_pos()
-            hvr = Hover()
-            for rect in self.inv_rects:
-                if rect.collidepoint(mouse_pos[0], mouse_pos[1]):
-                    hvr.draw(self.surface, mouse_pos)
-                    print(rect.topleft)
-        # pg.draw.rect(self.surface, (255, 255, 255), self.test_rect)
+            rel_pos = (mouse_pos[0] - self.rect.topleft[0], mouse_pos[1] - self.rect.topleft[1])
+            for i, rect in enumerate(self.inv_rects):
+                if rect.collidepoint(rel_pos):
+                    if self.items[i] is not None:
+                        self.items[i].show_tooltip(surface, mouse_pos)
+
         # x = 0
         # for rect in self.inv_rects:
         #     pg.draw.rect(self.surface, (255 - x, 255 - x / 2, 255 - x - 5), rect)
@@ -198,7 +219,7 @@ class Game:
         self.char = Player(Config['resources']['sprites']['player'], self.coord_grid)  # Initializes player at (0, 0)
         self.player_grp.add(self.char)
 
-        self.inventory = Inventory(self.__display_surf)
+        self.inventory = Inventory()
 
     def start(self):
         self.__game_loop()
@@ -211,7 +232,7 @@ class Game:
             self.scenery_grp.draw(self.__display_surf)
             self.player_grp.update()  # Call the update() method on all the sprites in the group
             self.player_grp.draw(self.__display_surf)  # Draw the sprites in the group
-            self.inventory.draw()
+            self.inventory.draw(self.__display_surf)
             pg.display.update()
 
     def __on_event(self, event):
