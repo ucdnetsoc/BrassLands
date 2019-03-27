@@ -1,4 +1,4 @@
-![Brasslands](src/res/menu.png)
+![Brasslands](src/res/ui/menu.png)
 
 BrassLands is an open-source Python based steampunk, fantasy, rouge-like created by the UCD NetSoc. It is built using [libtcod](https://bitbucket.org/libtcod/libtcod) and [pygame](https://www.pygame.org/), and is currently in the very earliest stages of development!  
 We would love any help that we can get, but remember to leave the *easy* stuff for people who haven't programmed that much before.

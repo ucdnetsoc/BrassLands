@@ -9,12 +9,24 @@ Config = {
         'ground_char': '.'
     },
     'resources': {
+        "ui": {
+            'menu': get_path("src/res/ui/menu.png"),
+            'inventory': get_path("src/res/ui/Inventory.png"),
+            'hover': get_path("src/res/ui/hover.png"),
+            'fonts': {
+                'tooltip': get_path("src/res/ui/fonts/tooltip.ttf")
+            },
+            'icons': {
+                'default': get_path("src/res/ui/icons/questionmark.png")
+            }
+        },
         'sprites': {
-            'player': get_path("src/res/char.png")
+            'player': get_path("src/res/sprites/char.png"),
+            'ground': get_path("src/res/sprites/ground.png"),
+            'wall': get_path("src/res/sprites/rock.png")
         },
         'levels': {
-            'level1': ""
+            'level1': get_path("src/res/levels/example.lvl")
         }
     }
 }
-
